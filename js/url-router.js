@@ -16,17 +16,17 @@ const urlRoutes = {
         descripytion: 'Это не найденная страница',
     },
     '/' : {
-        template: '/index.html',
+        template: '/templates/general.html',
         title: 'General | ' + urlPageTitle,
         descripytion: 'Это главная страницыа',
     },
-    '/home' : {
-        template: '/templates/home.html',
+    '/locations' : {
+        template: '/templates/locations.html',
         title: 'Home | ' + urlPageTitle,
         descripytion: 'Это домашняя страницыа',
     },
-    '/about' : {
-        template: '/templates/about.html',
+    '/settings' : {
+        template: '/templates/settings.html',
         title: 'About | ' + urlPageTitle,
         descripytion: 'Это познавательная страницыа',
     }
