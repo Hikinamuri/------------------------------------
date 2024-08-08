@@ -1,0 +1,102 @@
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+
+    transition: color 200ms ease
+}
+
+:root {
+    --f-orange: #FF6600;
+    --f-gray: #F4F4F4;
+
+    --black: #172139;
+}
+
+body {
+    margin: 0;
+    background-color: #F4F4F4;
+    font-family: 'Futura PT', sans-serif;
+    font-size: 17px;
+    color: var(--black);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    background-color: #FFFFFF;
+    height: 80px;
+}
+
+header div {
+    position: relative;
+    height: 45px;
+    display: flex;
+    align-items: end;
+    padding-left: 15px;
+}
+
+header div p {
+    position: absolute;
+    top: -10px;
+    left: 42px;
+    padding: 1px 3px;
+    border-radius: 3.5px;
+    white-space: pre;
+    font-size: 12px;
+    color: #FFFFFF;
+    background-color: var(--f-orange);
+}
+
+.container {
+    display: flex;
+    margin-top: 30px;
+}
+
+.container nav img {
+    padding-inline: 15px;
+}
+
+.main {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+}
+
+.sidebar div {
+    cursor: pointer;
+    display: flex;
+    width: 290px;
+    padding: 20px 0;
+    border-bottom: 1px solid #F4F4F4;
+    
+    transition: background-color 200ms ease;
+}
+
+.sidebar div a, img {
+    pointer-events: none;
+}
+
+.sidebar div:hover{
+    background-color: var(--black);
+    color: var(--f-gray);
+}
+
+.sidebar div:last-child {
+    padding-left: 40px;
+    color: var(--f-orange);
+}
+
+.content h2 {
+    margin: 0 !important;
+    padding: 0;
+}

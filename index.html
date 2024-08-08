@@ -5,41 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <meta name="description" content=''>
+    <link href="https://fonts.cdnfonts.com/css/futura-pt?styles=117663,117667,117666" rel="stylesheet">
     <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
     <header>
-        <div class='logo'></div>
+        <div class='logo'>
+            <img src="./assets/headerLogo.svg" alt="">
+            <p>v 2.01</p>
+        </div>
     </header>
     <div class="container">
-        <div id="main">
-            <nav>
-                <div>
-                    <img src="./assets/Vector.svg" alt="">
-                    <a href="/">Имущество</a>
+        <div class="main" id="main">
+            <nav class='sidebar'>
+                <div data-href='/'>
+                    <img src="./assets/menu.svg" alt="">
+                    <a>Имущество</a>
+                </div>
+                <div data-href='/'>
+                    <img src="./assets/calendar.svg" alt="">
+                    <a>Инвентаризация</a>
+                </div>
+                <div data-href='/'>
+                    <img src="./assets/employees.svg" alt="">
+                    <a>Сотрудники</a>
+                </div>
+                <div data-href='/'>
+                    <img src="./assets/alert.svg" alt="">
+                    <a>Уведомление</a>
+                </div>
+                <div data-href='/locations'>
+                    <img src="./assets/location.svg" alt="">
+                    <a>Локации</a>
+                </div>
+                <div data-href='/settings'>
+                    <img src="./assets/settings.svg" alt="">
+                    <a id="test">Настройки</a>
                 </div>
                 <div>
-                    <img src="" alt="">
-                    <a href="/">Инвентаризация</a>
-                </div>
-                <div>
-                    <img src="" alt="">
-                    <a href="/">Сотрудники</a>
-                </div>
-                <div>
-                    <img src="" alt="">
-                    <a href="/">Уведомление</a>
-                </div>
-                <div>
-                    <img src="" alt="">
-                    <a href="/locations">Локации</a>
-                </div>
-                <div>
-                    <img src="" alt="">
-                    <a href="/settings" id="test">Настройки</a>
+                    <img src="./assets/checkMark.svg" alt="">
+                    <p>Скрыть меню</p>
                 </div>
             </nav>
-            <div id="content"></div>
+            <div class="content" id="content">
+                <h2 id="contentName"></h2>
+                <div id="htmlContent"></div>
+            </div>
         </div>
     </div>
 
