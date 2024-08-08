@@ -1,11 +1,12 @@
 const urlPageTitle = 'Тестовое задание'
 
 document.addEventListener('click', (e) => {
-    if(!e.target.matches('div')) {
+    const targetDiv = e.target.closest('div');
+    const href = targetDiv.getAttribute('data-href');
+
+    if (!href) {
         return;
     }
-
-    const href = e.target.getAttribute('data-href');
     urlLocationHandler(href)
 })
 
@@ -44,7 +45,6 @@ const urlLocationHandler = async (href) => {
     document.title = route.title;
     document.querySelector('meta[name="description"]').setAttribute('content', route.descripytion);
 
-    // Динамическая загрузка скриптов
     if (href === '/locations') {
         import('/js/locations.js').then(module => {
             module.initLocationsPage();
