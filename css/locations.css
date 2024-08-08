@@ -1,0 +1,75 @@
+@import url('./index.css');
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    cursor: pointer;
+    margin: 20px 0;
+}
+
+li:last-child {
+    margin: 20px 0 0 0;
+}
+
+
+ul ul {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: opacity 300ms linear, max-height 400ms ease;
+}
+
+li.expanded > ul {
+    max-height: 500px;
+    opacity: 1;
+    transition: opacity 300ms linear, max-height 1500ms ease;
+}
+
+.button-list {
+    display: flex;
+    width: 100%;
+}
+
+.button-list div{
+    cursor: pointer;
+    padding: 10px 30px;
+    background-color: #FFFFFF;
+    color: var(--black);
+    white-space: pre;
+}
+
+.button-list div:active {
+    background-color: var(--black);
+    color: #FFFFFF;
+}
+
+.ulButton {
+    display: flex;
+    gap: 15px;
+    /* background-color: black; */
+}
+
+.ulButton-plus {
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--f-orange);
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.ulButton-plus.active {
+    display: flex;
+    font-size: 16px;
+    line-height: 16px;
+}
+
+.ulButton-threeDots {
+    font-size: 17px;
+}
