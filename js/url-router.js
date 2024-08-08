@@ -35,20 +35,24 @@ const urlRoutes = {
 }
 
 const urlLocationHandler = async (href) => {
-    const route = urlRoutes[href] || urlRoutes[404]
-    const html = await fetch(route.template).then(response => response.text())
+    const route = urlRoutes[href] || urlRoutes[404];
+    const html = await fetch(route.template).then(response => response.text());
     const pageName = route.link || route.title;
 
-    document.getElementById('htmlContent').innerHTML = html
+    document.getElementById('htmlContent').innerHTML = html;
     document.getElementById('contentName').innerText = pageName;
     document.title = route.title;
-    document
-        .querySelector('meta[name="description"]')
-        .setAttribute('content', route.description)
+    document.querySelector('meta[name="description"]').setAttribute('content', route.descripytion);
+
+    // Динамическая загрузка скриптов
+    if (href === '/locations') {
+        import('/js/locations.js').then(module => {
+            module.initLocationsPage();
+        });
+    }
 }
 
-window.onpopstate = urlLocationHandler
-window.onload = urlLocationHandler;
-window.route = urlRoute
+window.onpopstate = () => urlLocationHandler(window.location.pathname);
+window.onload = () => urlLocationHandler(window.location.pathname);
 
 urlLocationHandler()
