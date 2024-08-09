@@ -103,7 +103,7 @@ function locationSelect(location) {
     select.innerHTML = '';
 
     let option = document.createElement('option');
-    option.value = 'Вложенность';
+    option.value = '';
     option.textContent = 'Вложенность';
     select.appendChild(option)
 
@@ -154,6 +154,11 @@ export function initLocationsPage() {
     }
  
     const html = `<ul>${renderLocations(locations)}</ul>`;
+
+    function rerenderLocation(locations) {
+        const locationList = document.querySelector('#locationList');
+        locationList.innerHTML = `<ul>${renderLocations(locations)}</ul>`;
+    }
 
     document.querySelector('#locationList').innerHTML = html;
 
@@ -219,6 +224,51 @@ export function initLocationsPage() {
             }
         });
         
+    });
+
+    document.getElementById('createButton').addEventListener('click', function(event) {
+        event.preventDefault();
+    
+        const locationName = document.getElementById('locationName').value;
+        const barcode = document.getElementById('barcode').value;
+        const rfid = document.getElementById('rfid').value;
+        const selectedLocation = document.getElementById('locationSelect').value;
+        const virtualLocation = document.getElementById('virtualLocation').checked;
+        const forLostItems = document.getElementById('forLostItems').checked;
+    
+        const locationObject = {
+            name: locationName,
+            barcode: barcode,
+            RFID: rfid,
+            virtualLocation: virtualLocation,
+            forLostItems: forLostItems,
+            nastings: [{
+                locationName: selectedLocation,
+            }]
+        };
+    
+    
+        const alertCheck = [];
+        const check = {
+            название: locationName,
+            шрифхкод: barcode,
+            RFID: rfid
+        };
+        for (let key of Object.keys(check)) {
+            if (!check[key]) {
+                alertCheck.push(' ' + key);
+            }
+        };
+
+        alertCheck.length > 0 
+            ? 
+            alert(`Вы забыли ввести${alertCheck}`) 
+            : 
+            (addLocation.call(this, locationObject));
+            rerenderLocation(locations);
+        
+        console.log(locations)
+       
     });
 
     locationSelect(locations);

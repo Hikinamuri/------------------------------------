@@ -7,16 +7,65 @@
     <link rel="stylesheet" href="/css/locations.css">
 </head>
 <body>
-    <div class="button-list">
+    <div class="button-list" id="buttonList">
         <div>Все локации</div>
         <div>Импорт/Экспорт</div>
         <div>Настройки</div>
     </div>
-    <div>
-        <img src="" alt="">
-        <p>Создать локацию</p>
+    <div class="addButton" id="addButton">
+        <p>+ СОЗДАТЬ ЛОКАЦИЮ</p>
     </div>
     <div id="locationList"></div>
+    <div class="addForm" id="addForm">
+        <div class="addForm-div">
+            <h3>Создать локацию</h3>
+            <form id="locationForm" action="">
+                <input 
+                    class="form-input" 
+                    type="text" 
+                    placeholder="Название" 
+                    id="locationName"
+                    required
+                >
+                <input 
+                    class="form-input" 
+                    type="text"
+                    placeholder="Штрихкод"
+                    id="barcode"
+                    required
+                >
+                <input 
+                    class="form-input" 
+                    type="text"
+                    placeholder="RFID" 
+                    id="rfid"
+                    required
+                >
+                <select id="locationSelect" required></select>
+                <div class="switch-div">
+                    <p>Виртуальная локация</p>
+                    <label class="switch">
+                        <input type="checkbox" id="virtualLocation">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="switch-div">
+                    <p>Локация для утерь</p>
+                    <label class="switch">
+                        <input type="checkbox" id="forLostItems">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="form-button">
+                    <div id="createButton">
+                        <img src="../assets/save.svg" alt="">
+                        СОЗДАТЬ
+                    </div>
+                    <div id="cancelButton">ОТМЕНИТЬ</div>
+                </div>
+            </form>
+        </div>
+    </div>
     <script type="text/javascript" src="/js/locations.js"></script>
 </body>
 </html>

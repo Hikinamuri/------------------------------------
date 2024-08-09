@@ -4,10 +4,6 @@ body {
     gap: 30px;
 }
 
-p {
-    margin: 0;
-}
-
 ul {
     list-style-type: none;
 }
@@ -50,6 +46,10 @@ li.expanded > ul {
     cursor: pointer;
 }
 
+.addButton p {
+    margin: 0;
+}
+
 .addForm {
     display: flex;
     justify-content: center;
@@ -77,8 +77,9 @@ li.expanded > ul {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
+    width: fit-content;
     height: fit-content;
+    padding: 0 40px;
     background-color: #FFFFFF;
 }
 
@@ -105,7 +106,7 @@ li.expanded > ul {
     padding-left: 15px;
     background-color: #F5F5F5;
     border: 1px solid #E1E1E1;
-    color: #AEAEAE;
+    color: var(--black);
     height: 50px;
     width: 360px;
     border-radius: 5px;
@@ -135,6 +136,29 @@ li.expanded > ul {
     color: var(--black);
 }
 
+.form-button {
+    display: flex;
+    gap: 15px;
+    font-weight: 400;
+}
+
+.form-button div {  
+    cursor: pointer;
+    padding: 15px 30px;
+    border: 1px solid var(--black);
+    background-color: #FFFFFF;
+    color: var(--black);
+    border-radius: 5px;
+    width: fit-content;
+}
+
+.form-button div:first-child {
+    padding: 15px 50px;
+    background-color: var(--black);
+    color: #FFFFFF;
+    gap: 5px
+} 
+
 .button-list {
     padding-top: 25px;
     display: flex;
@@ -142,7 +166,7 @@ li.expanded > ul {
     gap: 20px;
 }
 
-.button-list div{
+.button-list div {
     cursor: pointer;
     padding: 10px 30px;
     background-color: #FFFFFF;
@@ -278,25 +302,3 @@ input:checked + .slider:before {
     max-width: 0;
     max-height: 0;
 }
-
-.form-button {
-    display: flex;
-    gap: 15px;
-    font-weight: 400;
-}
-
-.form-button div {  
-    padding: 15px 30px;
-    border: 1px solid var(--black);
-    background-color: #FFFFFF;
-    color: var(--black);
-    border-radius: 5px;
-    width: fit-content;
-}
-
-.form-button div:first-child {
-    padding: 15px 50px;
-    background-color: var(--black);
-    color: #FFFFFF;
-    gap: 5px
-} 
