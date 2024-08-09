@@ -1,5 +1,13 @@
 @import url('./index.css');
 
+body {
+    gap: 30px;
+}
+
+p {
+    margin: 0;
+}
+
 ul {
     list-style-type: none;
 }
@@ -18,18 +26,120 @@ ul ul {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
-    transition: opacity 300ms linear, max-height 400ms ease;
+    transition: max-height 500ms ease, opacity 100ms ease;
 }
 
 li.expanded > ul {
     max-height: 500px;
     opacity: 1;
-    transition: opacity 300ms linear, max-height 1500ms ease;
+    transition: max-height 1500ms ease, opacity 300ms ease;
+}
+
+.addButton {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    white-space: pre;
+    font-size: 18px;
+    color: #FFFFFF;
+    width: fit-content;
+    padding: 15px 50px;
+    border-radius: 5px;
+    margin-top: 30px;
+    background-color: var(--black);
+    cursor: pointer;
+}
+
+.addForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    max-height: 0;
+    max-width: 0;
+    overflow: hidden;
+    background-color: rgba(23, 33, 57, 0);
+    transition: opacity 100ms ease, background-color 300ms ease;
+}
+
+.open {
+    opacity: 1;
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: rgba(23, 33, 57, 0.5);
+    transition: opacity 300ms ease, background-color 300ms ease;
+}
+
+.addForm-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    height: fit-content;
+    background-color: #FFFFFF;
+}
+
+.addForm-div form {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 15px 0;
+    gap: 17px;
+}
+
+.addForm-div form div {
+    display: flex;
+    align-items: center;
+}
+
+.addForm-div form div p {
+    font-size: 16px;
+    
+}
+
+.addForm-div .form-input, select {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    background-color: #F5F5F5;
+    border: 1px solid #E1E1E1;
+    color: #AEAEAE;
+    height: 50px;
+    width: 360px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.addForm-div select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url('../assets/arrow.svg') no-repeat;
+    background-position: calc(100% - 10px) center;
+    background-size: 12px;
+    background-color: #F5F5F5;
+}
+
+.addForm-div form option {
+    color: var(--black);
+}
+
+.addForm-div form select:focus {
+    color: var(--black);
+}
+
+
+.addForm-div form input, select:placeholder-shown {
+    color: var(--black);
 }
 
 .button-list {
+    padding-top: 25px;
     display: flex;
     width: 100%;
+    gap: 20px;
 }
 
 .button-list div{
@@ -38,17 +148,18 @@ li.expanded > ul {
     background-color: #FFFFFF;
     color: var(--black);
     white-space: pre;
+    border-radius: 5px;
 }
 
-.button-list div:active {
-    background-color: var(--black);
-    color: #FFFFFF;
+.button-active {
+    background-color: var(--black) !important;
+    color: #FFFFFF !important;
 }
 
 .ulButton {
     display: flex;
+    align-items: center;
     gap: 15px;
-    /* background-color: black; */
 }
 
 .ulButton-plus {
@@ -64,6 +175,23 @@ li.expanded > ul {
     font-weight: 600;
 }
 
+.ulButton-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.ulButton-info div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.ulButton-info p {
+    margin: 0;
+}
+
 .ulButton-plus.active {
     display: flex;
     font-size: 16px;
@@ -72,4 +200,103 @@ li.expanded > ul {
 
 .ulButton-threeDots {
     font-size: 17px;
+    padding-inline: 5px;
 }
+
+.switch-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #EFEFEF;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    aspect-ratio: 1 / 1;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--f-orange);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+}
+
+.slider.round {
+    border-radius: 30px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+  
+
+.location-settings {
+    opacity: 1;
+    width: fit-content;
+    transition: opacity 300ms ease;
+}
+
+.location-settings div {
+    display: flex;
+    gap: 7.5px;
+    align-items: center;
+}
+
+.hide {
+    display: flex;
+    opacity: 0;
+    max-width: 0;
+    max-height: 0;
+}
+
+.form-button {
+    display: flex;
+    gap: 15px;
+    font-weight: 400;
+}
+
+.form-button div {  
+    padding: 15px 30px;
+    border: 1px solid var(--black);
+    background-color: #FFFFFF;
+    color: var(--black);
+    border-radius: 5px;
+    width: fit-content;
+}
+
+.form-button div:first-child {
+    padding: 15px 50px;
+    background-color: var(--black);
+    color: #FFFFFF;
+    gap: 5px
+} 
