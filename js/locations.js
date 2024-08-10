@@ -218,9 +218,11 @@ export function initLocationsPage() {
         const addButton = document.getElementById('addButton');
         const addForm = document.getElementById('addForm');
         const addFormDiv = addForm.querySelector('.addForm-div');
+
         addButton.addEventListener('click', function(event) {
             addForm.classList.add('open')
         })
+        
         addForm.addEventListener('click', function(event) {
             if (!addFormDiv.contains(event.target)) {
                 event.stopPropagation();
@@ -282,14 +284,13 @@ export function initLocationsPage() {
                 alertCheck.push(' ' + key);
             }
         };
-
+        console.log('Check',  alertCheck.length > 0)
         alertCheck.length > 0 
-            ? 
-            alert(`Вы забыли ввести${alertCheck}`) 
-            : 
-            addLocation.call(this, locationObject);
-            rerenderLocation(locations);
-            locationSelect(locations)
+            ? alert(`Вы забыли ввести${alertCheck}`) 
+            : (addLocation.call(this, locationObject),
+                rerenderLocation(locations),
+                locationSelect(locations),
+                addForm.classList.remove('open'))
         
         console.log(locations)
        
