@@ -65,6 +65,21 @@ li.expanded > ul {
     transition: opacity 100ms ease, background-color 300ms ease, height 600ms ease, width 400ms ease;
 }
 
+.editForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    background-color: rgba(23, 33, 57, 0);
+    transition: opacity 100ms ease, background-color 300ms ease, height 600ms ease, width 400ms ease;
+}
+
 .open {
     opacity: 1;
     height: 100vh;
@@ -97,7 +112,7 @@ li.expanded > ul {
 
 .addForm-div form div p {
     font-size: 16px;
-    
+    margin: 0;
 }
 
 .addForm-div .form-input, select {
@@ -152,11 +167,52 @@ li.expanded > ul {
     width: fit-content;
 }
 
-.form-button div:first-child {
+.form-button .createButton {
+    display: flex;
+    align-items: center;
+    width: 100%;
     padding: 15px 50px;
     background-color: var(--black);
     color: #FFFFFF;
     gap: 5px
+} 
+
+.editform-button {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-weight: 400;
+}
+
+.buttons-div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.buttons-div div {  
+    cursor: pointer;
+    padding: 15px 30px;
+    border: 1px solid var(--black);
+    background-color: #FFFFFF;
+    color: var(--black);
+    border-radius: 5px;
+    width: fit-content;
+}
+
+.deleteButton {
+    padding: 15px 50px !important;
+}
+.editform-button .createButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 50px;
+    background-color: var(--black);
+    color: #FFFFFF;
+    gap: 5px;
+    border-radius: 5px;
 } 
 
 .button-list {

@@ -1,6 +1,6 @@
 // Редактирование локации
 // Удаление локации
-// Добаавление новой настройки
+// Добаавление страницы настройки
 
 let locations = []
 
@@ -11,6 +11,16 @@ const defaultLocations = [
         RFID: 'RFID54321',
         virtualLocation: false,
         forLostItems: true,
+        nastings: [{
+            locationName: '',
+        }]
+    },
+    {
+        barcode: '987654321',
+        RFID: 'RFID54321',
+        virtualLocation: true,
+        forLostItems: true,
+        name: 'Локация 2',
         nastings: [{
             locationName: '',
         }]
@@ -48,31 +58,11 @@ const defaultLocations = [
     {
         barcode: '987654321',
         RFID: 'RFID54321',
-        virtualLocation: false,
+        virtualLocation: false, 
         forLostItems: false,
         name: 'Подподотдел',
         nastings: [{
             locationName: 'Подотдел 2',
-        }]
-    },
-    {
-        barcode: '987654321',
-        RFID: 'RFID54321',
-        virtualLocation: true,
-        forLostItems: true,
-        name: 'Локация 2',
-        nastings: [{
-            locationName: '',
-        }]
-    },
-    {
-        barcode: '987654321',
-        RFID: 'RFID54321',
-        virtualLocation: true,
-        forLostItems: true,
-        name: 'Локация 2',
-        nastings: [{
-            locationName: 'Подподотдел',
         }]
     },
 ]
@@ -86,26 +76,33 @@ function addLocation(location) {
     newLocation.nastings = [];
 
     const nastingName = location.nastings[0].locationName;
+    console.log(nastingName, 'Начало')
+
 
     function addNastingToLocations(locationList) {
+        console.log(nastingName, 'item', locationList)
+
         for (let item of locationList) {
-            console.log(item)
             if (item.name == nastingName) {
+                console.log('Не вложенность')
                 item.nastings.push(newLocation)
                 localStorage.setItem('locations', JSON.stringify(localLocations));
                 return
             } else {
+                console.log('Вложенность')
                 addNastingToLocations(item.nastings)
             }
         }
     }
 
-    if (!location.nastings[0].locationName) {
+    if (!nastingName) {
+        console.log(location.nastings[0].locationName, 'В главную')
         localLocations.push(newLocation);
         localStorage.setItem('locations', JSON.stringify(localLocations));
         return;
     } else {
-        addNastingToLocations(locations)
+        console.log(location.nastings[0].locationName, 'Дальше')
+        addNastingToLocations(localLocations)
     }
 }
 
@@ -152,7 +149,7 @@ export function initLocationsPage() {
                     <div class='ulButton-info'>
                         <strong>${location.name}</strong>
                         <div class='location-settings hide'>
-                            <div>
+                            <div id='editingButton'>
                                 <img src="../assets/pencil.svg" alt="">
                                 Редактировать
                             </div>
@@ -183,7 +180,6 @@ export function initLocationsPage() {
     }
 
     function addEvents() {
-        console.log(123)
         document.querySelectorAll('#locationList li').forEach(li => {
             li.addEventListener('click', function(event) {
                 event.stopPropagation();
@@ -217,7 +213,11 @@ export function initLocationsPage() {
         })
         const addButton = document.getElementById('addButton');
         const addForm = document.getElementById('addForm');
-        const addFormDiv = addForm.querySelector('.addForm-div');
+        const editForm = document.getElementById('editForm');
+        const addFormDiv = addForm.querySelector('.addForm-div')
+        const editFormDiv = editForm.querySelector('.addForm-div')
+        const cancelButtonAdd = document.getElementById('cancelButtonAdd');
+        const cancelButtonEdit = document.getElementById('cancelButtonEdit');
 
         addButton.addEventListener('click', function(event) {
             addForm.classList.add('open')
@@ -228,6 +228,34 @@ export function initLocationsPage() {
                 event.stopPropagation();
                 addForm.classList.remove('open');
             }
+        })
+
+        editForm.addEventListener('click', function(event) {
+            if (!editFormDiv.contains(event.target)) {
+                event.stopPropagation();
+                editForm.classList.remove('open');
+            }
+        })
+
+        function clearValue() {
+            document.getElementById('locationName').value = '';
+            document.getElementById('barcode').value = '';
+            document.getElementById('rfid').value = '';
+            document.getElementById('locationSelect').value = '';
+            document.getElementById('virtualLocation').checked;
+            document.getElementById('forLostItems').checked;
+        }
+
+        cancelButtonAdd.addEventListener('click', function(event) {
+            clearValue()
+            event.stopPropagation();
+            addForm.classList.remove('open');
+        })
+        cancelButtonEdit.addEventListener('click', function(event) {
+            clearValue()
+            event.stopPropagation();
+            editForm.classList.remove('open');
+            console.log('123')
         })
     
         document.querySelectorAll('.ulButton-threeDots').forEach(dot => {
@@ -248,6 +276,17 @@ export function initLocationsPage() {
                 }
             });
             
+        });
+
+        document.querySelectorAll('#editingButton').forEach(edit => {
+            edit.addEventListener('click', function(event) {
+                event.stopPropagation();
+    
+                const locationName = this.closest('.ulButton-info').querySelector('strong');
+                document.getElementById('editForm').classList.add('open');
+                document.getElementById('editFormText').innerText = `Изменить локацию - ${locationName.textContent}`
+                console.log(locationName.textContent);
+            });
         });
     }
 
@@ -299,6 +338,3 @@ export function initLocationsPage() {
     addEvents();
     locationSelect(locations);
 }
-
-// initLocationsPage();
-console.log('End')

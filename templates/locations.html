@@ -57,11 +57,67 @@
                     </label>
                 </div>
                 <div class="form-button">
-                    <div id="createButton">
+                    <div class="createButton" id="createButton">
                         <img src="../assets/save.svg" alt="">
                         СОЗДАТЬ
                     </div>
-                    <div id="cancelButton">ОТМЕНИТЬ</div>
+                    <div id="cancelButtonAdd">ОТМЕНИТЬ</div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="editForm" id="editForm">
+        <div class="addForm-div">
+            <h3 id="editFormText"></h3>
+            <form id="locationForm" action="">
+                <input 
+                    class="form-input" 
+                    type="text" 
+                    placeholder="Название" 
+                    id="locationName"
+                    required
+                >
+                <input 
+                    class="form-input" 
+                    type="text"
+                    placeholder="Штрихкод"
+                    id="barcode"
+                    required
+                >
+                <input 
+                    class="form-input" 
+                    type="text"
+                    placeholder="RFID" 
+                    id="rfid"
+                    required
+                >
+                <select id="locationSelect" required></select>
+                <div class="switch-div">
+                    <p>Виртуальная локация</p>
+                    <label class="switch">
+                        <input type="checkbox" id="virtualLocation">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="switch-div">
+                    <p>Локация для утерь</p>
+                    <label class="switch">
+                        <input type="checkbox" id="forLostItems">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="editform-button">
+                    <div class="buttons-div">
+                        <div id="deleteButton" class="deleteButton">
+                            <img src="../assets/delete.svg" alt="">
+                            УДАЛИТЬ
+                        </div>
+                        <div id="cancelButtonEdit">ОТМЕНИТЬ</div>
+                    </div>
+                    <div class="createButton" id="createButton">
+                        <img src="../assets/save.svg" alt="">
+                        СОХРАНИТЬ
+                    </div>
                 </div>
             </form>
         </div>
