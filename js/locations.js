@@ -1,13 +1,8 @@
-// {
-//     name: 'Location 2',
-//     barcode: '987654321',
-//     RFID: 'RFID54321',
-//     nestings: [],
-//     virtualLocation: true,
-//     forLostItems: true
-// }
+// Редактирование локации
+// Удаление локации
+// Добаавление новой настройки
 
-const locations = []
+let locations = []
 
 const defaultLocations = [
    {
@@ -70,35 +65,57 @@ const defaultLocations = [
             locationName: '',
         }]
     },
+    {
+        barcode: '987654321',
+        RFID: 'RFID54321',
+        virtualLocation: true,
+        forLostItems: true,
+        name: 'Локация 2',
+        nastings: [{
+            locationName: 'Подподотдел',
+        }]
+    },
 ]
 
+let localLocations;
+
+localStorage.getItem('locations') == null ? localLocations = [] : localLocations = JSON.parse(localStorage.getItem('locations'))
 
 function addLocation(location) {
     const { nastings, ...newLocation } = location;
     newLocation.nastings = [];
 
-    if (!location.nastings[0].locationName) {
-        locations.push(newLocation);
-        return;
-    }
-    locations.map(item => {
-        if(item.name == location.nastings[0].locationName) {
-            item.nastings.push(newLocation)
-        } else {
-            item.nastings.map(item1 => {
-                if(item1.name == location.nastings[0].locationName) {
-                    item1.nastings.push(newLocation)
-                }
-            })
+    const nastingName = location.nastings[0].locationName;
+
+    function addNastingToLocations(locationList) {
+        for (let item of locationList) {
+            console.log(item)
+            if (item.name == nastingName) {
+                item.nastings.push(newLocation)
+                localStorage.setItem('locations', JSON.stringify(localLocations));
+                return
+            } else {
+                addNastingToLocations(item.nastings)
+            }
         }
+    }
+
+    if (!location.nastings[0].locationName) {
+        localLocations.push(newLocation);
+        localStorage.setItem('locations', JSON.stringify(localLocations));
+        return;
+    } else {
+        addNastingToLocations(locations)
+    }
+}
+
+if (localLocations.length == 0) {
+    defaultLocations.forEach(loc => {
+        addLocation.call(this, loc)
     })
 }
 
-defaultLocations.forEach(loc => {
-    addLocation.call(this, loc)
-})
-
-function locationSelect(location) {
+function locationSelect(locations) {
     const select = document.getElementById('locationSelect');
     select.innerHTML = '';
 
@@ -118,10 +135,12 @@ function locationSelect(location) {
             }
         })
     }
-    addOptions(location)
+    addOptions(locations)
 }
 
 export function initLocationsPage() {
+    locations = localLocations;
+
     function renderLocations(locations) {
         return locations.map((location) => `
             <li>
@@ -154,81 +173,85 @@ export function initLocationsPage() {
     }
  
     const html = `<ul>${renderLocations(locations)}</ul>`;
+    document.querySelector('#locationList').innerHTML = html;
 
     function rerenderLocation(locations) {
         const locationList = document.querySelector('#locationList');
         locationList.innerHTML = `<ul>${renderLocations(locations)}</ul>`;
+        console.log('Rerendering location')
+        addEvents();
     }
 
-    document.querySelector('#locationList').innerHTML = html;
-
-    document.querySelectorAll('#locationList li').forEach(li => {
-        li.addEventListener('click', function(event) {
-            event.stopPropagation();
-            this.classList.toggle('expanded');
-
-            const ulButtonPlus = this.querySelector('.ulButton-plus');
-            
-            if (ulButtonPlus) {
-                ulButtonPlus.classList.toggle('active') ? 
-                ulButtonPlus.textContent = '-' : 
-                ulButtonPlus.textContent = '+';
-            }
-        });
-    });
-
-    const buttonList = document.getElementById('buttonList')
-    buttonList.querySelector('div').classList.add('button-active')
-    document.getElementById('contentName').innerText = `Локации / Все локации`;
-    buttonList.addEventListener('click', function(event) {
-        event.stopPropagation();
-
-        const buttons = this.querySelectorAll('div');
-        
-        buttons.forEach(button => button.classList.remove('button-active'));
-        if (event.target.matches('div')) {
-            event.target.classList.add('button-active');
-
-            const buttonName = event.target.innerText;
-            document.getElementById('contentName').innerText = `Локации / ${buttonName}`;
-        }
-    })
-    const addButton = document.getElementById('addButton');
-    const addForm = document.getElementById('addForm');
-    const addFormDiv = addForm.querySelector('.addForm-div');
-    addButton.addEventListener('click', function(event) {
-        addForm.classList.add('open')
-    })
-    addForm.addEventListener('click', function(event) {
-        if (!addFormDiv.contains(event.target)) {
-            event.stopPropagation();
-            addForm.classList.remove('open');
-        }
-    })
-
-    document.querySelectorAll('.ulButton-threeDots').forEach(dot => {
-        dot.addEventListener('click', function(event) {
-            event.stopPropagation();
-
-            const parent = this.closest('.ulButton').querySelector('.ulButton-info');
-            if (parent) {
-                const locationSettings = parent.querySelector('.location-settings');
-                const locationInfo = parent.querySelector('.location-info');
+    function addEvents() {
+        console.log(123)
+        document.querySelectorAll('#locationList li').forEach(li => {
+            li.addEventListener('click', function(event) {
+                event.stopPropagation();
+                this.classList.toggle('expanded');
     
-                if (locationSettings) {
-                    locationSettings.classList.toggle('hide');
+                const ulButtonPlus = this.querySelector('.ulButton-plus');
+                
+                if (ulButtonPlus) {
+                    ulButtonPlus.classList.toggle('active') ? 
+                    ulButtonPlus.textContent = '-' : 
+                    ulButtonPlus.textContent = '+';
                 }
-                if (locationInfo) {
-                    locationInfo.classList.toggle('hide');
-                }
-            }
+            });
         });
+    
+        const buttonList = document.getElementById('buttonList')
+        buttonList.querySelector('div').classList.add('button-active')
+        document.getElementById('contentName').innerText = `Локации / Все локации`;
+        buttonList.addEventListener('click', function(event) {
+            event.stopPropagation();
+    
+            const buttons = this.querySelectorAll('div');
+            
+            buttons.forEach(button => button.classList.remove('button-active'));
+            if (event.target.matches('div')) {
+                event.target.classList.add('button-active');
+    
+                const buttonName = event.target.innerText;
+                document.getElementById('contentName').innerText = `Локации / ${buttonName}`;
+            }
+        })
+        const addButton = document.getElementById('addButton');
+        const addForm = document.getElementById('addForm');
+        const addFormDiv = addForm.querySelector('.addForm-div');
+        addButton.addEventListener('click', function(event) {
+            addForm.classList.add('open')
+        })
+        addForm.addEventListener('click', function(event) {
+            if (!addFormDiv.contains(event.target)) {
+                event.stopPropagation();
+                addForm.classList.remove('open');
+            }
+        })
+    
+        document.querySelectorAll('.ulButton-threeDots').forEach(dot => {
+            dot.addEventListener('click', function(event) {
+                event.stopPropagation();
+    
+                const parent = this.closest('.ulButton').querySelector('.ulButton-info');
+                if (parent) {
+                    const locationSettings = parent.querySelector('.location-settings');
+                    const locationInfo = parent.querySelector('.location-info');
         
-    });
+                    if (locationSettings) {
+                        locationSettings.classList.toggle('hide');
+                    }
+                    if (locationInfo) {
+                        locationInfo.classList.toggle('hide');
+                    }
+                }
+            });
+            
+        });
+    }
 
     document.getElementById('createButton').addEventListener('click', function(event) {
         event.preventDefault();
-    
+        console.log(event.target);
         const locationName = document.getElementById('locationName').value;
         const barcode = document.getElementById('barcode').value;
         const rfid = document.getElementById('rfid').value;
@@ -264,14 +287,17 @@ export function initLocationsPage() {
             ? 
             alert(`Вы забыли ввести${alertCheck}`) 
             : 
-            (addLocation.call(this, locationObject));
+            addLocation.call(this, locationObject);
             rerenderLocation(locations);
+            locationSelect(locations)
         
         console.log(locations)
        
     });
-
+    
+    addEvents();
     locationSelect(locations);
 }
 
-initLocationsPage();
+// initLocationsPage();
+console.log('End')
