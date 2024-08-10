@@ -151,16 +151,23 @@ function locationSelect(locations) {
 }
 
 function findLocationByName(locations, name) {
-    for (let location of locations) {
-        if (location.name === name) {
-            return location;
-        } else if (location.nastings.length > 0) {
-            let found = findLocationByName(location.nastings, name);
-            const parentName = location.name;
-            if (found) return {found, parentName};
+    let found = findLocation(locations, name)
+
+    function findLocation(locationList, name) {
+        for (let i = 0; i < locationList.length; i++) {
+            if (locationList[i].name == name) {
+                console.log(locationList[i].name, name)
+                return locationList[i];
+            } else if (locationList[i].nastings.length > 0) {
+                if (findLocation(locationList[i].nastings, name)) {
+                    console.log('result', locationList[i].nastings)
+                    return findLocation(locationList[i].nastings, name);
+                }
+            }
         }
     }
-    return null;
+    
+    return found;
 }
 
 function updateLocation(updatedLocation) {
@@ -181,8 +188,8 @@ function deleteLocation(name) {
             if (locations[i].name == name) {
                 locations.splice(i, 1);
                 return true;
-            } else if (location[i].nastings.lenth > 0) {
-                if (removeLocation(location[i].nastings, name)) {
+            } else if (locations[i].nastings.length > 0) {
+                if (removeLocation(locations[i].nastings, name)) {
                     return true;
                 }
             }
@@ -344,10 +351,10 @@ export function initLocationsPage() {
     
                 const locationName = this.closest('.ulButton-info').querySelector('strong').textContent;
                 const response = findLocationByName(localLocations, locationName);
-                let locationToEdit = response.found || response
-                let parentName = response.parentName || '';
+                let locationToEdit = response
+                // let parentName = response.parentName || '';
 
-                console.log(response.parentName)
+                console.log(response)
                 if (!locationToEdit) {
                     return;
                 }
