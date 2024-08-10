@@ -114,12 +114,16 @@ if (localLocations.length == 0) {
 
 function locationSelect(locations) {
     const select = document.getElementById('locationSelect');
+    const editSelect = document.getElementById('edit-locationSelect');
+    
     select.innerHTML = '';
+    editSelect.innerHTML = '';
 
     let option = document.createElement('option');
     option.value = '';
     option.textContent = 'Вложенность';
     select.appendChild(option)
+    editSelect.appendChild(option)
 
     function addOptions(locationList) {
         locationList.forEach(location => {
@@ -127,12 +131,39 @@ function locationSelect(locations) {
             option.value = location.name;
             option.textContent = location.name;
             select.appendChild(option)
+            editSelect.appendChild(option)
+
             if(location.nastings.length > 0) {
                 addOptions(location.nastings)
             }
         })
     }
     addOptions(locations)
+}
+
+function findLocationByName(locations, name) {
+    for (let location of locations) {
+        if (location.name === name) {
+            return location;
+        } else if (location.nastings.length > 0) {
+            let found = findLocationByName(location.nastings, name);
+            const parentName = location.name;
+            if (found) return {found, parentName};
+        }
+    }
+    return null;
+}
+
+function updateLocation(updatedLocation) {
+    const name = updatedLocation.name;
+    let locationToUpdate = findLocationByName(localLocations, name);
+    
+    if (locationToUpdate) {
+        Object.assign(locationToUpdate, updatedLocation);
+        localStorage.setItem('locations', JSON.stringify(localLocations));
+    } else {
+        console.log("Локация не найдена");
+    }
 }
 
 export function initLocationsPage() {
@@ -282,10 +313,41 @@ export function initLocationsPage() {
             edit.addEventListener('click', function(event) {
                 event.stopPropagation();
     
-                const locationName = this.closest('.ulButton-info').querySelector('strong');
+                const locationName = this.closest('.ulButton-info').querySelector('strong').textContent;
+                const response = findLocationByName(localLocations, locationName);
+                let locationToEdit = response.found || response
+                let parentName = response.parentName || '';
+
+                console.log(response.parentName)
+                if (!locationToEdit) {
+                    return;
+                }
+                
                 document.getElementById('editForm').classList.add('open');
-                document.getElementById('editFormText').innerText = `Изменить локацию - ${locationName.textContent}`
-                console.log(locationName.textContent);
+                document.getElementById('editFormText').innerText = `Изменить локацию - ${locationName}`
+
+                document.getElementById('edit-locationName').value = locationToEdit.name;
+                document.getElementById('edit-barcode').value = locationToEdit.barcode;
+                document.getElementById('edit-rfid').value = locationToEdit.RFID;
+                document.getElementById('edit-locationSelect').value = parentName;
+                
+                document.getElementById('edit-virtualLocation').checked = locationToEdit.virtualLocation;
+                document.getElementById('edit-forLostItems').checked =  locationToEdit.forLostItems;
+
+                document.getElementById('saveButton').addEventListener('click', function() {
+                    let updatedLocation = {
+                        name: document.getElementById('edit-locationName').value,
+                        barcode: document.getElementById('edit-barcode').value,
+                        rfid: document.getElementById('edit-rfid').value,
+                        virtualLocation: document.getElementById('edit-virtualLocation').checked,
+                        forLostItems: document.getElementById('edit-forLostItems').checked
+                    }
+
+                    updateLocation(updatedLocation);
+                    rerenderLocation(locations),
+
+                    document.getElementById('editForm').classList.remove('open');
+                })
             });
         });
     }
