@@ -115,23 +115,32 @@ if (localLocations.length == 0) {
 function locationSelect(locations) {
     const select = document.getElementById('locationSelect');
     const editSelect = document.getElementById('edit-locationSelect');
-    
+
     select.innerHTML = '';
     editSelect.innerHTML = '';
 
     let option = document.createElement('option');
+    let editOption = document.createElement('option');
     option.value = '';
     option.textContent = 'Вложенность';
+    editOption.value = '';
+    editOption.textContent = 'Корневой элемент';
+
     select.appendChild(option)
-    editSelect.appendChild(option)
+    editSelect.appendChild(editOption)
 
     function addOptions(locationList) {
         locationList.forEach(location => {
             option = document.createElement('option');
             option.value = location.name;
             option.textContent = location.name;
+
+            editOption = document.createElement('option');
+            editOption.value = location.name;
+            editOption.textContent = location.name;
+
             select.appendChild(option)
-            editSelect.appendChild(option)
+            editSelect.appendChild(editOption)
 
             if(location.nastings.length > 0) {
                 addOptions(location.nastings)
@@ -166,6 +175,28 @@ function updateLocation(updatedLocation) {
     }
 }
 
+function deleteLocation(name) {
+    function removeLocation(locations, name) {
+        for (let i = 0; i < locations.length; i++) {
+            if (locations[i].name == name) {
+                locations.splice(i, 1);
+                return true;
+            } else if (location[i].nastings.lenth > 0) {
+                if (removeLocation(location[i].nastings, name)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    if (removeLocation(localLocations, name)) {
+        localStorage.setItem('locations', JSON.stringify(localLocations))
+    } else {
+        return
+    }
+}
+
 export function initLocationsPage() {
     locations = localLocations;
 
@@ -180,11 +211,11 @@ export function initLocationsPage() {
                     <div class='ulButton-info'>
                         <strong>${location.name}</strong>
                         <div class='location-settings hide'>
-                            <div id='editingButton'>
+                            <div class='editingButton'>
                                 <img src="../assets/pencil.svg" alt="">
                                 Редактировать
                             </div>
-                            <div>
+                            <div class='deletingButton'>
                                 <img src="../assets/cross.svg" alt="">
                                 Удалить
                             </div>
@@ -206,7 +237,6 @@ export function initLocationsPage() {
     function rerenderLocation(locations) {
         const locationList = document.querySelector('#locationList');
         locationList.innerHTML = `<ul>${renderLocations(locations)}</ul>`;
-        console.log('Rerendering location')
         addEvents();
     }
 
@@ -286,7 +316,6 @@ export function initLocationsPage() {
             clearValue()
             event.stopPropagation();
             editForm.classList.remove('open');
-            console.log('123')
         })
     
         document.querySelectorAll('.ulButton-threeDots').forEach(dot => {
@@ -309,7 +338,7 @@ export function initLocationsPage() {
             
         });
 
-        document.querySelectorAll('#editingButton').forEach(edit => {
+        document.querySelectorAll('.editingButton').forEach(edit => {
             edit.addEventListener('click', function(event) {
                 event.stopPropagation();
     
@@ -348,6 +377,16 @@ export function initLocationsPage() {
 
                     document.getElementById('editForm').classList.remove('open');
                 })
+            });
+        });
+
+        document.querySelectorAll('.deletingButton').forEach(deleting => {
+            deleting.addEventListener('click', function(event) {
+                event.stopPropagation();
+
+                const locationName = this.closest('.ulButton-info').querySelector('strong').textContent;
+                deleteLocation(locationName);
+                rerenderLocation(locations);
             });
         });
     }
