@@ -58,17 +58,17 @@ li.expanded > ul {
     position: fixed;
     top: 0;
     left: 0;
-    max-height: 0;
-    max-width: 0;
+    height: 0;
+    width: 0;
     overflow: hidden;
     background-color: rgba(23, 33, 57, 0);
-    transition: opacity 100ms ease, background-color 300ms ease;
+    transition: opacity 100ms ease, background-color 300ms ease, height 600ms ease, width 400ms ease;
 }
 
 .open {
     opacity: 1;
-    min-height: 100vh;
-    min-width: 100vw;
+    height: 100vh;
+    width: 100vw;
     background-color: rgba(23, 33, 57, 0.5);
     transition: opacity 300ms ease, background-color 300ms ease;
 }
