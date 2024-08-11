@@ -14,6 +14,8 @@ table {
 
 thead tr th {
     padding: 5px;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 thead tr th:first-child {
@@ -131,4 +133,9 @@ th {
     color: #FF6600;
     border: 1px solid #FF6600;
     border-radius: 50%;
+}
+
+.editform-button {
+    margin-top: 10px;
+    width: 250px;
 }

@@ -50,6 +50,11 @@ const urlLocationHandler = async (href) => {
             module.initLocationsPage();
         });
     }
+    else if (href === '/settings') {
+        import('/js/settings.js').then(module => {
+            module.initSettingsPage();
+        });
+    }
 }
 
 window.onpopstate = () => urlLocationHandler(window.location.pathname);

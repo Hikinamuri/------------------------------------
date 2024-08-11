@@ -278,6 +278,7 @@ export function initLocationsPage() {
                 document.getElementById('contentName').innerText = `Локации / ${buttonName}`;
             }
         })
+        
         const addButton = document.getElementById('addButton');
         const addForm = document.getElementById('addForm');
         const editForm = document.getElementById('editForm');
