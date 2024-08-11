@@ -98,10 +98,23 @@ header div p {
 
 .content {
     width: 80%;
-    padding-bottom: 50px;
+    padding-bottom: 90px;
 }
 
 .content h2 {
     margin: 0 !important;
     padding: 0;
+}
+
+footer {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    height: 80px;
+    width: 100vw;
+    color: #A5A5A5;
+    background-color: #FFFFFF;
+    gap: 30px;
 }
