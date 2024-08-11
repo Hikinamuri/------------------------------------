@@ -1,0 +1,134 @@
+@import url('./index.css');
+@import url('./locations.css');
+
+p {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead tr th {
+    padding: 5px;
+}
+
+thead tr th:first-child {
+    border-right: 1px solid #C4C4C4;
+}
+
+table tr {
+    height: 60px;
+}
+
+tbody td {
+    height: fit-content;
+    border: 0px solid transparent;
+    padding: 0;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #FFFFFF;
+}
+
+tr td:first-child {
+    padding-left: 30px;
+    width: 20%;
+    margin-right: auto;
+}
+
+th {
+    height: fit-content;
+    align-items: center;
+    min-width: 100px;
+    white-space: pre;
+}
+
+.tr-name {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: fit-content;
+}
+
+.tr-name img {
+    cursor: pointer;
+}
+
+.orangeCheckbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    user-select: none;
+}
+
+.orangeCheckbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+  
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #FFFFFF;
+    border: 1px solid #FF6600;
+    border-radius: 5px;
+}
+  
+.orangeCheckbox:hover input ~ .checkmark {
+    background-color: #FFFFFF;
+}
+
+.orangeCheckbox input:checked ~ .checkmark {
+    background-color: #FF6600;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.orangeCheckbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.orangeCheckbox .checkmark:after {
+    left: 6px;
+    top: 4px;
+    width: 3px;
+    height: 6px;
+    border: solid #FFFFFF;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.checkbox-container {
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+}
+
+.question {
+    height: 25px;
+    display: flex;
+    margin-inline: auto;
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    padding: 5px;
+    color: #FF6600;
+    border: 1px solid #FF6600;
+    border-radius: 50%;
+}
