@@ -396,6 +396,17 @@ export function initLocationsPage() {
                 rerenderLocation(locations);
             });
         });
+
+        document.querySelectorAll('.deleteButton').forEach(deleting => {
+            deleting.addEventListener('click', function(event) {
+                event.stopPropagation();
+                const locationName = document.getElementById('editFormText').innerText.split(' - ').pop()
+                console.log(locationName)
+                deleteLocation(locationName);
+                rerenderLocation(locations);
+                editForm.classList.remove('open');
+            });
+        });
     }
 
     document.getElementById('createButton').addEventListener('click', function(event) {
