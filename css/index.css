@@ -96,6 +96,11 @@ header div p {
     color: var(--f-orange);
 }
 
+.content {
+    width: 80%;
+    padding-bottom: 50px;
+}
+
 .content h2 {
     margin: 0 !important;
     padding: 0;
