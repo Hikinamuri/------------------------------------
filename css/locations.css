@@ -177,6 +177,10 @@ li.expanded > ul {
     gap: 5px
 } 
 
+.createButton {
+    cursor: pointer;
+}
+
 .editform-button {
     display: flex;
     flex-direction: column;

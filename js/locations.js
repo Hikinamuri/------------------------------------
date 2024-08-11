@@ -152,28 +152,27 @@ function locationSelect(locations) {
 
 function findLocationByName(locations, name) {
     let found = findLocation(locations, name)
-
-    function findLocation(locationList, name) {
+    
+    function findLocation(locationList, name, parentName) {
         for (let i = 0; i < locationList.length; i++) {
             if (locationList[i].name == name) {
                 console.log(locationList[i].name, name)
-                return locationList[i];
+                return {found: locationList[i], parentName};
             } else if (locationList[i].nastings.length > 0) {
                 if (findLocation(locationList[i].nastings, name)) {
-                    console.log('result', locationList[i].nastings)
-                    return findLocation(locationList[i].nastings, name);
+                    console.log('result', locationList[i].name)
+                    return findLocation(locationList[i].nastings, name, locationList[i].name);
                 }
             }
         }
     }
-    
     return found;
 }
 
-function updateLocation(updatedLocation) {
-    const name = updatedLocation.name;
-    let locationToUpdate = findLocationByName(localLocations, name);
-    
+function updateLocation(updatedLocation, oldName) {
+    let locationToUpdate = findLocationByName(localLocations, oldName).found;
+    const {name, ...other} = locationToUpdate
+
     if (locationToUpdate) {
         Object.assign(locationToUpdate, updatedLocation);
         localStorage.setItem('locations', JSON.stringify(localLocations));
@@ -351,8 +350,9 @@ export function initLocationsPage() {
     
                 const locationName = this.closest('.ulButton-info').querySelector('strong').textContent;
                 const response = findLocationByName(localLocations, locationName);
-                let locationToEdit = response
-                // let parentName = response.parentName || '';
+                let locationToEdit = response.found;
+                const oldName = locationToEdit.name
+                let parent = response.parentName || '';
 
                 console.log(response)
                 if (!locationToEdit) {
@@ -365,7 +365,7 @@ export function initLocationsPage() {
                 document.getElementById('edit-locationName').value = locationToEdit.name;
                 document.getElementById('edit-barcode').value = locationToEdit.barcode;
                 document.getElementById('edit-rfid').value = locationToEdit.RFID;
-                document.getElementById('edit-locationSelect').value = parentName;
+                document.getElementById('edit-locationSelect').value = parent;
                 
                 document.getElementById('edit-virtualLocation').checked = locationToEdit.virtualLocation;
                 document.getElementById('edit-forLostItems').checked =  locationToEdit.forLostItems;
@@ -378,8 +378,8 @@ export function initLocationsPage() {
                         virtualLocation: document.getElementById('edit-virtualLocation').checked,
                         forLostItems: document.getElementById('edit-forLostItems').checked
                     }
-
-                    updateLocation(updatedLocation);
+                    console.log(updatedLocation);
+                    updateLocation(updatedLocation, oldName);
                     rerenderLocation(locations),
 
                     document.getElementById('editForm').classList.remove('open');
@@ -431,16 +431,20 @@ export function initLocationsPage() {
                 alertCheck.push(' ' + key);
             }
         };
-        console.log('Check',  alertCheck.length > 0)
-        alertCheck.length > 0 
+
+        if (findLocationByName(locations, locationObject.name)) {
+            alert('Локация с таким именем уже есть!')
+            return;
+        } else {
+            alertCheck.length > 0 
             ? alert(`Вы забыли ввести${alertCheck}`) 
-            : (addLocation.call(this, locationObject),
+            : (
+                addLocation.call(this, locationObject),
                 rerenderLocation(locations),
                 locationSelect(locations),
-                addForm.classList.remove('open'))
-        
-        console.log(locations)
-       
+                addForm.classList.remove('open')
+            )   
+        }   
     });
     
     addEvents();
